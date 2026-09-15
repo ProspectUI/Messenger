@@ -29,7 +29,11 @@
       "PowerShell(Get-Process *)",
       "PowerShell(Add-Type -AssemblyName System.IO.Compression.FileSystem; $z = [System.IO.Compression.ZipFile]::OpenRead\\(\"C:\\\\test\\\\Messenger \\(2\\)\\\\Messenger\\\\dist\\\\Messenger.zip\"\\); $z.Entries | Where-Object { $_.FullName -notmatch '/' -or $_.FullName -match '^\\(Server|Client\\)/[^/]+$' } | Select-Object -First 12 FullName; \"...\"; \"Всего файлов в архиве: $\\($z.Entries.Count\\)\"; $z.Dispose\\(\\))",
       "Read(//c/temp/dbcheck/**)",
-      "Bash(dotnet run *)"
+      "Bash(dotnet run *)",
+      "PowerShell(git *)",
+      "PowerShell($o = git -C \"C:\\\\test\\\\Messenger \\(2\\)\\\\Messenger\" ls-remote origin; \"EXIT=$LASTEXITCODE\"; \"COUNT=\" + \\($o | Measure-Object\\).Count; $o | Select-Object -First 10)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
