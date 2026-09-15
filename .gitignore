@@ -21,3 +21,9 @@ artifacts/
 *.db-shm
 *.db-wal
 *.db-journal
+
+# Publish output
+dist/
+
+# Local Claude Code settings
+.claude/settings.local.json
