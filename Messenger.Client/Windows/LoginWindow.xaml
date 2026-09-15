@@ -1,0 +1,204 @@
+<Window x:Class="Messenger.Client.Windows.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="clr-namespace:Messenger.Client.Localization"
+        Title="Messenger" Height="460" Width="360"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#f0f5fc"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <Style x:Key="RoundButton" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DarkTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="#ffffff"/>
+            <Setter Property="Foreground" Value="#1a2332"/>
+            <Setter Property="CaretBrush" Value="#1a2332"/>
+            <Setter Property="BorderBrush" Value="#ccd8e8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Margin="{TemplateBinding Padding}"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DarkPasswordBox" TargetType="PasswordBox">
+            <Setter Property="Background" Value="#ffffff"/>
+            <Setter Property="Foreground" Value="#1a2332"/>
+            <Setter Property="CaretBrush" Value="#1a2332"/>
+            <Setter Property="BorderBrush" Value="#ccd8e8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Margin="{TemplateBinding Padding}"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LangButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#9daab8"/>
+            <Setter Property="Padding" Value="6,2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Margin="36,28" VerticalAlignment="Center">
+
+        <!-- Logo -->
+        <TextBlock Text="Messenger" FontSize="30" FontWeight="Bold"
+                   Foreground="#2b77e7" HorizontalAlignment="Center"/>
+        <TextBlock Text="{Binding AppSubtitle, Source={x:Static loc:LocalizationService.Instance}}"
+                   Margin="0,8,0,0" FontSize="13" Foreground="#6b7a8d" HorizontalAlignment="Center"/>
+
+        <!-- Username -->
+        <TextBlock Text="{Binding UsernameLabel, Source={x:Static loc:LocalizationService.Instance}}"
+                   Foreground="#6b7a8d" FontSize="12" Margin="2,28,0,6"/>
+        <TextBox x:Name="UsernameBox" Style="{StaticResource DarkTextBox}"
+                 Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- Password -->
+        <TextBlock Text="{Binding PasswordLabel, Source={x:Static loc:LocalizationService.Instance}}"
+                   Foreground="#6b7a8d" FontSize="12" Margin="2,14,0,6"/>
+        <Grid>
+            <PasswordBox x:Name="PasswordBox" Style="{StaticResource DarkPasswordBox}"
+                         Padding="12,0,70,0"/>
+            <TextBox x:Name="PasswordTextBox" Style="{StaticResource DarkTextBox}"
+                     Padding="12,0,70,0" Visibility="Collapsed"/>
+            <Button x:Name="TogglePasswordBtn"
+                    HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Margin="0,0,12,0" Background="Transparent" BorderThickness="0"
+                    Cursor="Hand" FontSize="12" Foreground="#6b7a8d"
+                    Content="{Binding ShowPassword, Source={x:Static loc:LocalizationService.Instance}}"
+                    Click="TogglePasswordBtn_Click"/>
+        </Grid>
+
+        <!-- Error -->
+        <TextBlock Text="{Binding ErrorMessage}" Foreground="#dc2626"
+                   FontSize="12" HorizontalAlignment="Center" TextWrapping="Wrap"
+                   Margin="0,10,0,0"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter},
+                                        FallbackValue=Collapsed}"/>
+
+        <!-- Buttons -->
+        <Grid Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="LoginBtn" Grid.Column="0"
+                    Content="{Binding LoginButton, Source={x:Static loc:LocalizationService.Instance}}"
+                    Background="#2b77e7" Style="{StaticResource RoundButton}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}"
+                    Click="LoginBtn_Click"/>
+            <Button x:Name="RegisterBtn" Grid.Column="2"
+                    Content="{Binding RegisterButton, Source={x:Static loc:LocalizationService.Instance}}"
+                    Background="Green" Style="{StaticResource RoundButton}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}"
+                    Click="RegisterBtn_Click"/>
+        </Grid>
+
+        <!-- Language switcher -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="UA"
+                    Command="{Binding SetLanguageCommand, Source={x:Static loc:LocalizationService.Instance}}"
+                    CommandParameter="UA">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource LangButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Language, Source={x:Static loc:LocalizationService.Instance}}"
+                                         Value="{x:Static loc:AppLanguage.Ukrainian}">
+                                <Setter Property="Foreground" Value="#2b77e7"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <TextBlock Text="|" Foreground="#ccd8e8" VerticalAlignment="Center" FontSize="14"/>
+            <Button Content="EN"
+                    Command="{Binding SetLanguageCommand, Source={x:Static loc:LocalizationService.Instance}}"
+                    CommandParameter="EN">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource LangButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Language, Source={x:Static loc:LocalizationService.Instance}}"
+                                         Value="{x:Static loc:AppLanguage.English}">
+                                <Setter Property="Foreground" Value="#2b77e7"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+
+    </StackPanel>
+</Window>

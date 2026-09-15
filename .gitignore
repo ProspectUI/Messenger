@@ -1,0 +1,23 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / VS Code
+.idea/
+.vscode/
+
+# Build / publish folders
+[Pp]ublish/
+artifacts/
+
+# SQLite temp/journal files (the demo database messenger.db itself is kept on purpose)
+*.db-shm
+*.db-wal
+*.db-journal

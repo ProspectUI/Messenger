@@ -1,0 +1,41 @@
+<Application x:Class="Messenger.Client.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:Messenger.Client.Converters">
+    <Application.Resources>
+        <conv:FirstLetterConverter            x:Key="FirstLetterConverter"/>
+        <conv:AvatarColorConverter            x:Key="AvatarColorConverter"/>
+        <conv:BoolToHorizontalAlignmentConverter x:Key="BoolToAlignmentConverter"/>
+        <conv:BoolToMessageBrushConverter     x:Key="BoolToMessageBrushConverter"/>
+        <conv:InvertBoolToVisibilityConverter x:Key="InvertBoolToVisibilityConverter"/>
+        <conv:InvertBoolConverter               x:Key="InvertBoolConverter"/>
+        <conv:StringEmptyToVisibilityConverter x:Key="StringEmptyToVisibilityConverter"/>
+        <conv:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter"/>
+        <BooleanToVisibilityConverter         x:Key="BoolToVisibilityConverter"/>
+
+        <!-- Scrollbar style — slim dark -->
+        <Style TargetType="ScrollBar">
+            <Setter Property="Width" Value="6"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid Background="Transparent">
+                            <Track x:Name="PART_Track" IsDirectionReversed="True">
+                                <Track.Thumb>
+                                    <Thumb>
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Border Background="#e0b8c1" CornerRadius="3" Margin="1"/>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Application.Resources>
+</Application>
