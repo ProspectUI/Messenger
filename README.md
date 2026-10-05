@@ -1,72 +1,72 @@
 # Messenger
 
-Учебный мессенджер (дипломный проект) на .NET 8: сервер ASP.NET Core с обменом сообщениями в реальном времени через SignalR, аутентификацией по JWT и хранением данных в зашифрованной базе SQLite (SQLCipher). Клиент — настольное приложение WPF.
+An educational messenger (diploma project) built on .NET 8: an ASP.NET Core server with real-time messaging via SignalR, JWT authentication and data storage in an encrypted SQLite database (SQLCipher). The client is a WPF desktop application.
 
-## Архитектура
+## Architecture
 
-Решение состоит из трёх проектов:
+The solution consists of three projects:
 
-| Проект | Тип | Назначение |
-|--------|-----|-----------|
-| **Messenger.Server** | ASP.NET Core Web API | REST-эндпоинты (регистрация, вход, пользователи, чаты) + SignalR-хаб `/chathub` для сообщений в реальном времени |
-| **Messenger.Client** | WPF (Windows) | Настольный клиент: окно входа/регистрации, список чатов, переписка |
-| **Messenger.Shared** | Class Library | Общие модели и DTO для сервера и клиента |
+| Project | Type | Purpose |
+|---------|------|---------|
+| **Messenger.Server** | ASP.NET Core Web API | REST endpoints (registration, login, users, chats) + SignalR hub `/chathub` for real-time messaging |
+| **Messenger.Client** | WPF (Windows) | Desktop client: login/registration window, chat list, conversations |
+| **Messenger.Shared** | Class Library | Shared models and DTOs for the server and client |
 
-Технологии: ASP.NET Core Minimal API, SignalR, JWT (Bearer), Entity Framework Core + SQLite/SQLCipher, WPF + MVVM (CommunityToolkit.Mvvm), Swagger.
+Technologies: ASP.NET Core Minimal API, SignalR, JWT (Bearer), Entity Framework Core + SQLite/SQLCipher, WPF + MVVM (CommunityToolkit.Mvvm), Swagger.
 
-## Требования
+## Requirements
 
-- **Windows** (клиент использует WPF и работает только под Windows)
+- **Windows** (the client uses WPF and runs on Windows only)
 - **.NET 8 SDK** — https://dotnet.microsoft.com/download/dotnet/8.0
-  Проверить установку: `dotnet --version` (должна быть версия 8.x)
+  Verify the installation: `dotnet --version` (should be version 8.x)
 
-## Запуск
+## Running
 
-Нужно запустить **два процесса**: сначала сервер, затем клиент. Удобнее всего открыть два окна терминала в корневой папке решения.
+You need to run **two processes**: first the server, then the client. The easiest way is to open two terminal windows in the solution root folder.
 
-### 1. Сервер
+### 1. Server
 
 ```bash
 dotnet run --project Messenger.Server
 ```
 
-Сервер поднимется на `http://localhost:5087`.
-Документация API (Swagger) доступна по адресу: http://localhost:5087/swagger
+The server will start at `http://localhost:5087`.
+API documentation (Swagger) is available at: http://localhost:5087/swagger
 
-База данных `messenger.db` создаётся автоматически при первом запуске (если её ещё нет).
+The `messenger.db` database is created automatically on first run (if it doesn't exist yet).
 
-### 2. Клиент
+### 2. Client
 
-В отдельном окне терминала:
+In a separate terminal window:
 
 ```bash
 dotnet run --project Messenger.Client
 ```
 
-> Клиент жёстко настроен на адрес сервера `http://localhost:5087`, менять ничего не нужно.
+> The client is hard-coded to use the server address `http://localhost:5087`, so no changes are needed.
 
-Можно также открыть `Messenger.sln` в Visual Studio 2022, выставить **Messenger.Server** стартовым проектом, запустить, затем отдельно запустить **Messenger.Client**.
+Alternatively, you can open `Messenger.sln` in Visual Studio 2022, set **Messenger.Server** as the startup project, run it, and then run **Messenger.Client** separately.
 
-## Как проверить (демо-сценарий)
+## How to test (demo scenario)
 
-В комплекте идёт база `messenger.db` с тестовыми данными, поэтому можно сразу войти готовыми учётными записями. Либо проверить «с нуля»:
+The repository includes a `messenger.db` database with test data, so you can log in right away with existing accounts. Or test it "from scratch":
 
-1. Запустить сервер и клиент.
-2. В окне клиента зарегистрировать пользователя (например `alice`), затем закрыть/перезапустить клиент и зарегистрировать второго (`bob`) — удобно запустить **два** экземпляра клиента одновременно.
-3. Под одним пользователем найти второго через поиск и начать переписку.
-4. Сообщения доставляются между двумя клиентами в реальном времени через SignalR.
+1. Start the server and the client.
+2. In the client window, register a user (e.g. `alice`), then close/restart the client and register a second one (`bob`) — it's convenient to run **two** client instances at the same time.
+3. Logged in as one user, find the other one via search and start a conversation.
+4. Messages are delivered between the two clients in real time via SignalR.
 
-## Эндпоинты API
+## API endpoints
 
-| Метод | Путь | Описание | Авторизация |
-|-------|------|----------|-------------|
-| POST | `/register` | Регистрация пользователя | — |
-| POST | `/login` | Вход, возвращает JWT | — |
-| GET | `/users?search=` | Поиск пользователей | JWT |
-| GET | `/chats` | Список чатов пользователя | JWT |
-| POST | `/chats/private` | Создать/получить приватный чат | JWT |
-| — | `/chathub` | SignalR-хаб обмена сообщениями | JWT |
+| Method | Path | Description | Authorization |
+|--------|------|-------------|---------------|
+| POST | `/register` | Register a user | — |
+| POST | `/login` | Log in, returns a JWT | — |
+| GET | `/users?search=` | Search users | JWT |
+| GET | `/chats` | List the user's chats | JWT |
+| POST | `/chats/private` | Create/get a private chat | JWT |
+| — | `/chathub` | SignalR messaging hub | JWT |
 
-## Примечание о конфигурации
+## Configuration note
 
-Для простоты учебного проекта ключ подписи JWT и пароль шифрования базы данных заданы прямо в `Messenger.Server/appsettings.json`. В реальной (production) среде эти значения следует выносить в переменные окружения или защищённое хранилище секретов, а не хранить в репозитории.
+For simplicity, as this is an educational project, the JWT signing key and the database encryption password are set directly in `Messenger.Server/appsettings.json`. In a real (production) environment, these values should be moved to environment variables or a secure secret store rather than kept in the repository.
